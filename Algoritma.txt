@@ -1,0 +1,8 @@
+ALGORITMA GAME VIRUS SLAYER
+
+1. Setelah memasukan USERNAME lalu tombol play di klik
+	- Pada Nama Player = inputUsernme.value
+	- Hitung mundur
+		- Setelah hitungan ke 3 jalankan FUNGSI TIMER
+		- Putar Backsound
+2.

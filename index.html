@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Virus Slayer</title>
+  </head>
+  <style type="text/tailwindcss">
+    .animation-target1 {
+      animation: animationTarget1 0.7s infinite linear;
+    }
+    .animation-target2 {
+      animation: animationTarget2 0.9s infinite linear;
+    }
+    .animation-target3 {
+      animation: animationTarget3 0.7s infinite linear;
+    }
+    .animation-target4 {
+      animation: animationTarget4 1s infinite linear;
+    }
+
+    @keyframes animationTarget1 {
+      0% {
+        transform: translateY(-15%);
+      }
+
+      100% {
+        transform: translateY(500px);
+      }
+    }
+    @keyframes animationTarget2 {
+      0% {
+        transform: translateY(-20%);
+      }
+
+      100% {
+        transform: translateY(900px);
+      }
+    }
+    @keyframes animationTarget3 {
+      0% {
+        transform: translateY(-5%);
+      }
+
+      100% {
+        transform: translateY(600px);
+      }
+    }
+    @keyframes animationTarget4 {
+      0% {
+        transform: translateY(-25%);
+      }
+
+      100% {
+        transform: translateY(1000px);
+      }
+    }
+
+    .animationCountdown {
+      animation: countdown 0.4s ease-in-out forwards;
+    }
+
+    @keyframes countdown {
+      0% {
+        transform: scale(0);
+      }
+
+      100% {
+        transform: scale(8);
+      }
+    }
+  </style>
+  <body>
+    <main class="flex justify-center items-center w-screen h-screen bg-[#252525]">
+      <div class="instruction flex flex-col w-[400px] h-fit bg-gray-800 py-8 px-6">
+        <div class="rules text-white flex flex-col gap-[2px] mb-4">
+          <h2 class="mb-4 font-semibold text-xl">Instruction Virus Slayer</h2>
+          <p>1. Input Username and click Play</p>
+          <p>2. Destroy Virus with D F J K Key</p>
+          <p>3. Reach High Score</p>
+          <p>4. Enjoyy the Game</p>
+        </div>
+        <div class="w-full flex flex-col justify-center">
+          <input id="usernameInput" type="text" placeholder="Input Username" class="w-full h-[35px] rounded px-2" />
+          <button id="playButton" class="px-[20px] w-fit self-center h-[40px] bg-blue-600 rounded mt-2 text-white font-bold hover:bg-blue-800a">Play</button>
+        </div>
+      </div>
+
+      <div id="content" class="w-full h-full bg-[#252525] hidden justify-center">
+        <div class="info absolute left-2 top-4 text-white">
+          <div class="text-xl">
+            <div>Time: <span id="time"></span></div>
+            <div>Score: <span id="score"></span></div>
+            <div>Fail: <span id="fail"></span></div>
+            <div>Player: <span id="namePlayer"></span></div>
+          </div>
+
+          <div class="bg-[#414141] mt-4 w-[200px] h-[250px] px-3 py-5 rounded-lg">
+            <h2 class="font-bold text-xl">Virus Slayer</h2>
+            <div class="mt-2">
+              <button id="restart">Restart</button>
+            </div>
+            <div class="pause">
+              <button onclick="pauseBtn()">Pause</button>
+            </div>
+            <div>
+              <button id="quit">Quit</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="game bg-[#3f3f3f] w-[400px] h-screen fixed">
+          <div class="flex relative target">
+            <div id="way1" class="border-r border-white w-[135px] h-screen relative">
+              <img id="target1" src="images/coronavirus-gaedba68d4_1280.png" alt="" class="w-[80%] h-fit mx-auto" />
+            </div>
+            <div id="way2" class="border-r border-white w-[135px] h-screen">
+              <img id="target2" src="images/coronavirus-gaedba68d4_1280.png" alt="" class="w-[80%] h-fit mx-auto" />
+            </div>
+            <div id="way3" class="border-r border-white w-[135px] h-screen">
+              <img id="target3" src="images/coronavirus-gaedba68d4_1280.png" alt="" class="w-[80%] h-fit mx-auto" />
+            </div>
+            <div id="way4" class="w-[135px] h-screen">
+              <img id="target4" src="images/coronavirus-gaedba68d4_1280.png" alt="" class="w-[80%] h-fit mx-auto" />
+            </div>
+            <div id="areaTargetPoin" class="w-full h-[150px] bg-red-700 opacity-[.4] absolute bottom-[130px]"></div>
+          </div>
+          <div class="w-full flex justify-center absolute bottom-0">
+            <img src="images/d.png" alt="" class="z-10 mb-4 w-[350px]" />
+            <div class="absolute bottom-0 bg-slate-800 w-full h-[130px] flex justify-between">
+              <div class="D w-[97px] h-full bg-violet-600"></div>
+              <div class="F w-[97px] h-full bg-blue-600"></div>
+              <div class="J w-[97px] h-full bg-violet-600"></div>
+              <div class="K w-[97px] h-full bg-blue-600"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="pause" class="absolute top-[35%] w-[250px] py-10 hidden flex-col gap-2 text-xl items-center h-fit mx-auto bg-[#8d8d8d] rounded-lg" style="z-index: 100">
+          <div class="w-fit">Time: <span id="time-pause">0</span></div>
+          <div class="w-fit">Score: <span id="score-pause">0</span></div>
+          <div class="w-fit mb-2">Fail: <span id="fail-pause">0</span></div>
+
+          <div class="w-fit flex justify-center gap-6">
+            <button id="restart"><i class="fa-solid fa-rotate-left fa-xl hover:text-slate-600"></i></button>
+            <button id="resume-pause"><i class="fa-solid fa-pause fa-xl hover:text-slate-600"></i></button>
+            <button id="quit"><i class="fa-solid fa-arrow-right-from-bracket fa-xl hover:text-slate-600"></i></button>
+          </div>
+        </div>
+
+        <div>
+          <audio id="bc">
+            <source src="assets/backsoun_virus_slayer.mp3" type="audio/mpeg" />
+          </audio>
+        </div>
+        <div id="hitung-mundur" class="absolute animationCountdown w-fit h-fit mx-0 my-[300px] text-white text-xl" style="z-index: 9999"></div>
+        <div id="game-over"></div>
+        <div class="layer hidden absolute top-0 bottom-0 right-0 left-0 bg-black opacity-[.6]"></div>
+      </div>
+    </main>
+
+    <script>
+      const playButton = document.getElementById("playButton");
+      const container = document.querySelector("main");
+      const usernameInput = document.getElementById("usernameInput");
+
+      const instruction = document.querySelector(".instruction");
+      const exitGame = document.querySelectorAll("#quit");
+      const contentGame = document.getElementById("content");
+
+      const backsound = document.getElementById("bc");
+      const layer = document.querySelector(".layer");
+      const pauseBtn = document.querySelector(".pause");
+      const pause = document.getElementById("pause");
+      const restart = document.querySelectorAll("#restart");
+      const scorePause = document.getElementById("score-pause");
+      const failPause = document.getElementById("fail-pause");
+
+      let fail = document.getElementById("fail");
+      let scoreElement = document.getElementById("score");
+
+      const imgTarget = document.querySelectorAll(".target img");
+      const ubinPiano = document.getElementById("areaTargetPoin");
+
+      const time = document.getElementById("time");
+      const playerName = document.getElementById("namePlayer");
+      const hitungMundur = document.getElementById("hitung-mundur");
+      const resume = document.getElementById("resume-pause");
+
+      function checkInputValue() {
+        if (usernameInput.value) {
+          playButton.disabled = false; // Mengaktifkan tombol jika input memiliki nilai
+          playButton.classList.replace("bg-gray-600", "bg-blue-600");
+          console.log(usernameInput.value);
+          playerName.textContent = usernameInput.value;
+        } else {
+          playButton.classList.replace("bg-blue-600", "bg-gray-600");
+          playButton.classList.replace("hover:bg-blue-800", "bg-gray-600");
+          playButton.disabled = true; // Menonaktifkan tombol jika input tidak memiliki nilai
+        }
+      }
+
+      // Memanggil fungsi checkInputValue setiap kali nilai input berubah
+      usernameInput.addEventListener("input", checkInputValue);
+
+      // Menonaktifkan tombol "Play" saat halaman dimuat (jika input awalnya tidak valid)
+      checkInputValue();
+
+      // In Game
+      // Mulai permainan
+      playButton.addEventListener("click", function () {
+        instruction.classList.replace("flex", "hidden");
+        contentGame.classList.replace("hidden", "flex");
+        usernameInput.value = "";
+
+        hitungMundur.style.display = "flex";
+        layer.classList.replace("hidden", "flex");
+
+        scoreElement.textContent = 0;
+        fail.textContent = 0;
+        countdown();
+      });
+
+      // PROBLEM : Countdown hanya berfungsi 1 kali setelah halaman di REFRESH
+      let defaultCountdown = 3;
+      function countdown() {
+        hitungMundur.textContent = defaultCountdown;
+
+        const intervalId = setInterval(function () {
+          defaultCountdown--;
+
+          if (defaultCountdown >= 0) {
+            hitungMundur.textContent = defaultCountdown;
+            if (defaultCountdown == 0) {
+              hitungMundur.style.display = "none";
+              layer.classList.replace("flex", "hidden");
+              clearInterval(intervalId);
+              animationtarget("add");
+              backsound.play();
+              tekanUbin();
+              startStopwatch();
+
+              defaultCountdown = 3;
+            }
+          }
+        }, 1000);
+      }
+
+      let timer = null;
+      let [miliseconds, seconds, minutes] = [0, 0, 0];
+
+      function updateDisplay() {
+        miliseconds++;
+        if (miliseconds == 60) {
+          miliseconds = 0;
+          seconds++;
+          if (seconds == 60) {
+            seconds = 0;
+            minutes++;
+          }
+        }
+
+        let m = minutes < 10 ? "0" + minutes : minutes;
+        let s = seconds < 10 ? "0" + seconds : seconds;
+        let ms = miliseconds < 10 ? "0" + miliseconds : miliseconds;
+
+        time.textContent = `${m}:${s}:${ms}`;
+      }
+
+      function startStopwatch() {
+        if (timer != null) {
+          clearInterval(timer);
+        }
+        timer = setInterval(updateDisplay, 10);
+      }
+
+      function stopStopwatch() {
+        clearInterval(timer);
+      }
+
+      function resetStopwatch() {
+        [miliseconds, seconds, minutes] = [0, 0, 0];
+        time.textContent = "00:00:00";
+      }
+
+      function animationtarget(action) {
+        if (action == "add") {
+          imgTarget[0].classList.add("animation-target1");
+          imgTarget[1].classList.add("animation-target2");
+          imgTarget[2].classList.add("animation-target3");
+          imgTarget[3].classList.add("animation-target4");
+        }
+        if (action == "remove") {
+          imgTarget[0].classList.remove("animation-target1");
+          imgTarget[1].classList.remove("animation-target2");
+          imgTarget[2].classList.remove("animation-target3");
+          imgTarget[3].classList.remove("animation-target4");
+        }
+        // imgTarget.forEach((e) => {
+        // });
+      }
+
+      function tekanUbin() {
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "D" || event.key === "d") {
+            console.log("Tombol D ditekan");
+            periksaTombol("D");
+          }
+          if (event.key === "F" || event.key === "f") {
+            console.log("Tombol F ditekan");
+            periksaTombol("F");
+          }
+          if (event.key === "J" || event.key === "j") {
+            console.log("Tombol J ditekan");
+            periksaTombol("J");
+          }
+          if (event.key === "K" || event.key === "k") {
+            console.log("Tombol K ditekan");
+            periksaTombol("K");
+          }
+        });
+      }
+
+      let score = 0;
+      let failPoin = 0;
+      function periksaTombol(tombol) {
+        // Dapatkan posisi ubin dan area target
+        let posisiUbin = ubinPiano.getBoundingClientRect();
+
+        const target = {
+          D: imgTarget[0],
+          F: imgTarget[1],
+          J: imgTarget[2],
+          K: imgTarget[3],
+        };
+
+        const targetImg = target[`${tombol}`];
+        const posisiTarget = targetImg.getBoundingClientRect();
+        // Memeriksa apakah bagian bawah ubin berada di atas bagian atas target
+
+        console.log(posisiTarget.top.toFixed());
+
+        if (posisiTarget.top >= 350) {
+          score += 1;
+          scoreElement.textContent = score;
+        }
+
+        if (posisiTarget.top < 350) {
+          failPoin += 1;
+          fail.textContent = failPoin;
+          //         jika salah:
+          //             kurangi nyawa
+        }
+      }
+
+      // procedure AnimasiMenghilangkanUbin(u):
+      //     // Implementasi animasi untuk menghilangkan ubin, misalnya dengan membuatnya transparan atau menggerakkannya ke arah tertentu
+
+      // procedure AnimasiMunculKembaliUbin(u):
+      //     // Implementasi animasi untuk muncul kembali ubin, misalnya dengan mengembalikannya ke posisi awal dengan pergerakan dari luar layar
+
+      // procedure PenangananAkhirPermainan():
+      //     hentikan musik latar belakang
+      //     tampilkan skor akhir pemain
+      //     tampilkan tombol untuk mulai kembali atau keluar dari permainan
+
+      restart.forEach((restartBtn) => {
+        restartBtn.addEventListener("click", function () {
+          scoreElement.textContent = 0;
+          fail.textContent = 0;
+
+          layer.classList.replace("hidden", "flex");
+          pause.classList.replace("flex", "hidden");
+
+          animationtarget("remove");
+
+          hitungMundur.style.display = "flex";
+          resetStopwatch();
+          countdown();
+        });
+      });
+
+      // Resume
+      pauseBtn.addEventListener("click", function () {
+        backsound.pause();
+        layer.classList.replace("hidden", "flex");
+        pause.classList.replace("hidden", "flex");
+
+        animationtarget("remove");
+
+        scorePause.textContent = score;
+        failPause.textContent = failPoin;
+
+        stopStopwatch();
+
+        resume.addEventListener("click", function () {
+          layer.classList.replace("flex", "hidden");
+          pause.classList.replace("flex", "hidden");
+
+          animationtarget("add");
+          startStopwatch();
+        });
+      });
+
+      exitGame.forEach((e) => {
+        e.addEventListener("click", function () {
+          contentGame.classList.replace("flex", "hidden");
+          instruction.classList.replace("hidden", "flex");
+          layer.classList.replace("flex", "hidden");
+          pause.classList.replace("flex", "hidden");
+
+          backsound.pause();
+          backsound.load();
+
+          console.log(defaultCountdown);
+          animationtarget("remove");
+        });
+      });
+
+      // // Memulai pemutaran audio
+      // audio.play();
+
+      // // Menghentikan pemutaran audio
+      // audio.pause();
+
+      // // Memuat ulang audio
+      // audio.load();
+
+      // // Mendapatkan atau mengatur posisi saat ini dalam pemutaran audio
+      // audio.currentTime = 10; // Mengatur posisi ke 10 detik
+      // console.log(audio.currentTime); // Mendapatkan posisi saat ini
+
+      // // Mengatur volume audio
+      // audio.volume = 0.5; // Mengatur volume menjadi setengah
+
+      // // Mengatur apakah audio dibisukan atau tidak
+      // audio.muted = true; // Mengatur audio menjadi bisu
+
+      // // Mendapatkan status apakah audio sudah selesai diputar atau belum
+      // console.log(audio.ended); // Mengembalikan true atau false
+
+      // procedure ulang permainan
+    </script>
+  </body>
+</html>

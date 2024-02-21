@@ -1,0 +1,44 @@
+// Stopwatch
+// initialization
+let startTime;
+let elapsedTime = 0;
+let timerInterval;
+let isRunning = false;
+
+// Format waktu agar selalu dua digit
+function formatTime(time) {
+  // return time < 10 ? "0" + time : time;
+}
+
+function updateDisplay() {
+  // let display = document.getElementById("time");
+  // let minutes = Math.floor(elapsedTime / 60000);
+  // let seconds = Math.floor((elapsedTime % 60000) / 1000);
+  // let milliseconds = Math.floor((elapsedTime % 1000) / 10);
+  // // Format waktu dalam dua digit
+  // let formattedTime = formatTime(minutes) + ":" + formatTime(seconds) + ":" + formatTime(milliseconds);
+  // display.textContent = formattedTime;
+}
+
+function startStopwatch() {
+  // if (!isRunning) {
+  //   startTime = Date.now() - elapsedTime;
+  //   timerInterval = setInterval(function () {
+  //     elapsedTime = Date.now() - startTime;
+  //     updateDisplay();
+  //   }, 10);
+  //   isRunning = true;
+  // }
+}
+
+function stopStopwatch() {
+  clearInterval(timerInterval);
+  isRunning = false;
+}
+
+function resetStopwatch() {
+  clearInterval(timerInterval);
+  isRunning = false;
+  elapsedTime = 0;
+  updateDisplay();
+}
